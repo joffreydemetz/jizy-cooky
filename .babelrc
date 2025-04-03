@@ -1,0 +1,13 @@
+{
+	"presets": ["@babel/preset-env"],
+	"env": {
+		"production": {
+			"comments": false,
+			"compact": true
+		},
+		"development": {
+			"sourceMaps": true,
+			"retainLines": true
+		}
+	}
+}
