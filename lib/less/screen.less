@@ -1,0 +1,50 @@
+#cooky {
+	.privacy>p {
+		max-width: 68%;
+		font-size: 1.05em;
+	}
+}
+
+#cookyModal {
+	.cm-inner {
+		width: calc(~"100vw - 80px");
+		min-width: 320px;
+		max-width: 1200px;
+		margin: 30px auto;
+		border-radius: 3px;
+		border: 1px solid rgba(0, 0, 0, .2);
+
+		section {
+			padding-left: 40px;
+			padding-right: 40px;
+		}
+	}
+
+	p.disclaimer {
+		width: 73%;
+		column-count: 2;
+		column-gap: 40px;
+	}
+}
+
+#cooky-services .c-item {
+	display: flex;
+	flex-wrap: wrap;
+
+	.c-item-name {
+		order: 1;
+		flex: 48% 0 1;
+	}
+
+	.c-item-duration {
+		order: 2;
+		text-align: right;
+		flex: 48% 1 0;
+	}
+
+	.c-item-details {
+		order: 3;
+		flex-grow: 1;
+		padding: 6px 0;
+	}
+}

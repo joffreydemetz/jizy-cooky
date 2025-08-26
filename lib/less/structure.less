@@ -1,0 +1,531 @@
+.cooky-activate {
+	width: 100%;
+	height: 100%;
+	background-color: #696969;
+	color: #FFF;
+
+	.cooky-allow {
+		text-shadow: 0 1px 0 fade(@cooky-darkgray, 20%);
+		display: block;
+		margin: 0 auto;
+
+		>span[class^="cooky-icon-"],
+		>span[class*=" cooky-icon-"] {
+			font-size: 1.4em;
+			vertical-align: bottom;
+			margin-right: 5px;
+		}
+	}
+}
+
+.jizy-cooky-boxed {
+	break-inside: avoid;
+
+	.cooky-activate {
+		display: table;
+		text-align: center;
+		padding: 10px 20px;
+
+		>div {
+			display: table-cell;
+			text-align: center;
+			vertical-align: middle;
+
+			>p {
+				max-width: 300px;
+				margin: 0 auto 10px auto;
+			}
+		}
+	}
+}
+
+#cooky,
+#cookyModal {
+	font-family: Palatino, Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	line-height: 18px;
+
+	.c-btn {
+		.btn();
+
+		&.c-big {
+			.big-btn();
+		}
+
+		&.c-icon {
+			.icon-btn();
+
+			>span {
+
+				&[class^="cooky-icon-"],
+				&[class*=" cooky-icon-"] {
+					top: 0;
+				}
+			}
+		}
+
+		&.c-red {
+			.btn-theme(@cooky-red; #FFF; @cooky-red);
+
+			&.active {
+				border-color: @cooky-red;
+			}
+		}
+
+		&.c-green {
+			.btn-theme(@cooky-green; #FFF; @cooky-green);
+
+			&.active {
+				border-color: @cooky-green;
+			}
+		}
+
+		&.c-gray {
+			.btn-theme(@cooky-gray; #222; @cooky-gray);
+
+			&.active {
+				border-color: @cooky-gray;
+			}
+		}
+	}
+
+	.c-languages {
+		display: flex;
+		justify-content: center;
+		margin-bottom: 10px;
+		text-align: center;
+		column-gap: 6px;
+
+		&:empty {
+			display: none;
+		}
+
+		button {
+			background: none;
+			border: 0;
+			border-bottom: 2px solid transparent;
+			cursor: pointer;
+			height: 30px;
+			overflow: hidden;
+			padding: 0;
+			position: relative;
+			width: 40px;
+
+			&:hover,
+			&:focus {
+				opacity: .8;
+			}
+
+			&.active {
+				border-bottom-color: #222 !important;
+			}
+
+			>span {
+				background-repeat: no-repeat;
+				background-size: cover;
+				display: block;
+				height: 28px;
+				position: relative;
+				max-width: 100%;
+
+				&:before {
+					content: '\00a0';
+				}
+			}
+
+			&[data-cooky-language='fr']>span {
+				background-image:~"url(@{cooky-flag-path}fr.png)";
+			}
+
+			&[data-cooky-language='en']>span {
+				background-image:~"url(@{cooky-flag-path}en.png)";
+			}
+
+			&[data-cooky-language='es']>span {
+				background-image:~"url(@{cooky-flag-path}es.png)";
+			}
+
+			&[data-cooky-language='it']>span {
+				background-image:~"url(@{cooky-flag-path}it.png)";
+			}
+
+			&[data-cooky-language='de']>span {
+				background-image:~"url(@{cooky-flag-path}de.png)";
+			}
+		}
+	}
+
+	.c-buttons {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		column-gap: 10px;
+		margin-top: 20px;
+	}
+}
+
+#cooky {
+	width: 100%;
+	height: 100vh;
+	max-height: 100%;
+	display: none;
+	background: rgba(0, 0, 0, .7);
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	color: #FFF;
+	text-align: center;
+	z-index: @cooky-layer;
+	flex-direction: column;
+	flex-wrap: wrap;
+	user-select: none;
+
+	&[data-cooky-position='center'] {
+		justify-content: center;
+	}
+
+	&[data-cooky-position='bottom'] {
+		justify-content: flex-end;
+	}
+
+	&[data-cooky-position='top'] {
+		justify-content: flex-start;
+	}
+
+	>div {
+		position: relative;
+		background-color: #656565;
+		padding: 20px;
+	}
+
+	p {
+		max-width: 700px;
+		margin: 0 auto;
+		color: #FFF;
+		margin-bottom: 20px;
+	}
+
+	.reload-adblocker {
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	a.cooky-dontcare {
+		color: #fff !important;
+		display: flex;
+		align-items: center;
+		line-height: 1;
+		margin-bottom: 13px;
+		column-gap: 7px;
+
+		span {
+			&:first-child {
+				text-decoration: underline;
+				text-align: right;
+				flex-grow: 1;
+			}
+
+			&+span {
+				margin-top: 3px;
+			}
+		}
+
+		&:focus,
+		&:hover {
+			>span:first-child {
+				text-decoration: none;
+			}
+		}
+	}
+}
+
+#cookyModal {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	visibility: hidden;
+	opacity: 0;
+	z-index: @cooky-layer !important;
+	-webkit-overflow-scrolling: touch;
+	user-select: none;
+
+	.cm-inner {
+		position: relative;
+		background: #FFF;
+		color: #000;
+		opacity: 0;
+		transform: translate(0, -150vh);
+		transition: all .8s ease-in-out;
+	}
+
+	header {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		column-gap: 20px;
+		padding: 10px 20px;
+		border-bottom: 1px solid @cooky-gray;
+		background-color: #FFF;
+		color: #222;
+
+		.L1 {
+			flex: 1 0 80%;
+			margin: 0;
+			font-weight: 700;
+			font-size: 1.3em;
+			line-height: 1.4rem;
+		}
+
+		button {
+			cursor: pointer;
+			padding: 0;
+			background: transparent;
+			border: 0;
+			appearance: none;
+			line-height: 1;
+			height: 26px;
+			overflow: hidden;
+			font-size: 26px;
+			margin-top: 2px;
+
+			>span {
+
+				&[class^="cooky-icon-"],
+				&[class*=" cooky-icon-"] {
+					vertical-align: middle;
+				}
+			}
+		}
+	}
+
+	section {
+		position: relative;
+		padding: 20px;
+
+		span[class^="cooky-icon-"],
+		span[class*=" cooky-icon-"] {
+			vertical-align: middle;
+		}
+	}
+
+	hr {
+		width: 170px !important;
+		border-top: 3px solid #EEE;
+		margin: 16px auto;
+	}
+
+	.cooky-d {
+		text-align: center;
+		font-size: 1.2em;
+	}
+
+	p.disclaimer {
+		text-align: justify;
+		margin: 20px auto;
+	}
+
+	.c-message {
+		display: none;
+		padding: 10px 20px 20px 20px;
+		opacity: 0;
+		height: 0;
+		transition: all .5s ease-in;
+
+		p {
+			text-align: center;
+			font-weight: 700;
+			margin-bottom: 0;
+			color: @cooky-green;
+		}
+
+		&.in {
+			display: block;
+			opacity: 1;
+			min-height: 50px;
+		}
+	}
+}
+
+#cookyModalBackdrop {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background-color: rgba(40, 43, 49, .8);
+	transition: all 1.2s ease-in-out;
+	visibility: hidden;
+	opacity: 0;
+	z-index: @cooky-layer - 1;
+}
+
+#cooky-services {
+	.L3 {
+		font-size: 1.3em;
+		color: #444 !important;
+	}
+
+	p {
+		margin-bottom: 0.6em;
+		margin-top: 0.6em;
+	}
+
+	a {
+		color: #222 !important;
+		text-decoration: none !important;
+		transition: opacity .4s ease-in-out;
+		// opacity: 1;
+
+		&:hover,
+		&:focus {
+			opacity: .6;
+		}
+	}
+
+	.cooky-d {
+		text-align: center;
+		font-size: 1.05em;
+
+		.L2 {
+			color: #333 !important;
+			margin: 4px auto 16px auto;
+		}
+
+		div {
+			margin-top: 10px;
+		}
+	}
+
+	.cooky-r {
+		display: flex;
+		flex-wrap: wrap;
+
+		>p {
+			flex-grow: 1;
+		}
+	}
+
+	.c-read-more-toggler {
+		color: #555 !important;
+		font-size: .9em;
+
+		>span {
+			display: inline-block;
+
+			&.cooky-icon-caret {
+				&:before {
+					transition: transform .3s ease-in-out;
+					margin-right: 4px;
+					display: inline-block;
+				}
+			}
+		}
+
+
+		&:hover,
+		&:focus,
+		&.active {
+			opacity: 1 !important;
+
+			>span.cooky-icon-caret {
+				&:before {
+					transform: rotate(90deg);
+				}
+			}
+
+		}
+	}
+
+	.c-read-more {
+		background: @cooky-gray;
+		overflow: hidden;
+		transition: all .6s ease-in-out, visibility .6s ease-in-out;
+		max-height: 0;
+		visibility: hidden;
+		width: 100%;
+
+		&.in {
+			max-height: 1000px !important;
+			padding: 12px;
+			border-bottom: 1px dotted @cooky-gray;
+			visibility: visible;
+			margin-bottom: 20px;
+		}
+
+		>p {
+			margin: 0 0 0 10px;
+
+			&+p {
+				margin-top: 6px;
+			}
+
+			a {
+				font-weight: 700;
+			}
+		}
+	}
+
+	.cooky-allow,
+	.cooky-allow-all {
+		opacity: .5;
+
+		&:hover,
+		&.active {
+			opacity: 1;
+		}
+	}
+
+	.cooky-deny,
+	.cooky-deny-all {
+		opacity: .5;
+
+		&:hover,
+		&.active {
+			opacity: 1;
+		}
+	}
+
+	.c-item {
+		background-color: rgba(255, 255, 255, .6);
+		padding: 10px 8px;
+		margin-top: 8px;
+
+		span.cooky-icon-lock {
+			color: @cooky-green;
+			margin-top: 2px 2px 0 0;
+			display: inline-block;
+		}
+	}
+}
+
+body.cooky-needs-consent {
+	overflow: hidden;
+
+	#cooky {
+		display: flex;
+	}
+}
+
+body.cm-open {
+	overflow: hidden;
+
+	#cookyModal {
+		opacity: 1;
+		visibility: visible;
+		overflow-x: hidden;
+		overflow-y: auto;
+
+		.cm-inner {
+			transform: translate(0, 0);
+			opacity: 1;
+		}
+	}
+
+	#cookyModalBackdrop {
+		opacity: 1;
+		visibility: visible;
+	}
+}

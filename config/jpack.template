@@ -1,0 +1,14 @@
+import Core from '{{PREFIX}}lib/js/Core.js';
+import Cooky from '{{PREFIX}}lib/js/Cooky.js';
+
+import '{{PREFIX}}lib/cooky.less';
+import '{{PREFIX}}lib/fonts/cooky.woff2';
+import '{{PREFIX}}lib/fonts/cooky.woff';
+{{FLAGS}}
+
+{{LANGUAGES}}
+{{SERVICES}}
+{{PLUGINS}}
+{{CONFIG}}
+
+export { Core, Cooky }

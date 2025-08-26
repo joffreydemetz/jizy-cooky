@@ -1,0 +1,63 @@
+.btn() {
+    border-width: 2px;
+    border-style: solid;
+    background: none;
+    border-radius: 2px;
+    position: relative;
+    padding: 4px 6px;
+    font-size: 1em;
+    line-height: 1;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+        opacity: .8;
+    }
+}
+
+.big-btn() {
+    .btn();
+    font-size: 1.05em;
+    padding: 8px 12px;
+    border-radius: 4px;
+}
+
+.icon-btn() {
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
+
+    >span {
+
+        &:not([class^="cooky-icon-"]),
+        &:not([class*=" cooky-icon-"]) {
+            flex-grow: 1;
+        }
+
+        &[class^="cooky-icon-"],
+        &[class*=" cooky-icon-"] {
+            top: 0;
+        }
+    }
+}
+
+.btn-theme(@bg-color; @fg-color: #FFF) {
+    .btn-theme(@bg-color, @fg-color, darken(@bg-color, 20%));
+}
+
+.btn-theme(@bg-color; @fg-color; @border-color) {
+    background-color: @bg-color;
+    border-color: @border-color;
+    color: @fg-color;
+}
+
+.cooky-font() {
+    font-family: "Cooky" !important;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-variant: normal !important;
+    text-transform: none !important;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}

@@ -1,0 +1,80 @@
+@font-face {
+  font-family: "Cooky";
+  src: url("@{cooky-font-path}cooky.woff2") format("woff2"),
+  url("@{cooky-font-path}cooky.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="cooky-icon-"],
+[class*=" cooky-icon-"] {
+  &:before {
+    .cooky-font();
+  }
+}
+
+.cooky-icon {
+  &-refresh:before {
+    content: "\61";
+  }
+
+  &-arrow:before {
+    content: "\63";
+  }
+
+  &-double-caret:before {
+    content: "\64";
+  }
+
+  &-caret:before {
+    content: "\65";
+  }
+
+  &-info-circle:before {
+    content: "\68";
+  }
+
+  &-times:before {
+    content: "\66";
+  }
+
+  &-exclamation-triangle:before {
+    content: "\62";
+  }
+
+  &-google:before {
+    content: "\67";
+  }
+
+  &-pinterest:before {
+    content: "\6d";
+  }
+
+  &-facebook:before {
+    content: "\6e";
+  }
+
+  &-instagram:before {
+    content: "\6f";
+  }
+
+  &-twitter:before {
+    content: "\70";
+  }
+
+  &-youtube:before {
+    content: "\6c";
+  }
+
+  &-linkedin:before {
+    content: "\6b";
+  }
+
+  &-vimeo:before {
+    content: "\69";
+  }
+
+  &-lock:before {
+    content: "\6a";
+  }
+}

@@ -1,0 +1,20 @@
+{
+    "name": "jdz/jizy-cooky",
+    "type": "library",
+    "description": "A lightweight and modular GDPR management library",
+    "keywords": [
+        "JDZ",
+        "GDPR",
+        "Compliance"
+    ],
+    "homepage": "https://jdz.joffreydemetz.com/cooky",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Joffrey Demetz",
+            "email": "joffrey.demetz@gmail.com",
+            "homepage": "https://joffreydemetz.com",
+            "role": "Lead"
+        }
+    ]
+}

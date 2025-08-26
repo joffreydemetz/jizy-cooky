@@ -1,0 +1,22 @@
+@import (optional) url("less/_variables.less");
+@import url("less/variables.less");
+@import url("less/mixins.less");
+@import url("less/fonts.less");
+@import url("less/structure.less");
+
+@media (max-width: @mobile-breakpoint) {
+    @import url("less/mobile.less");
+}
+
+@media (min-width: @desktop-breakpoint) {
+    @import url("less/screen.less");
+}
+
+@media print {
+
+    #cooky,
+    #cookyModal,
+    #cookyModalBackdrop {
+        display: none !important;
+    }
+}
