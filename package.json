@@ -1,18 +1,13 @@
 {
   "name": "jizy-cooky",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "browser": "dist/js/jizy-cooky.min.js",
   "main": "lib/index.js",
   "type": "module",
+  "jizy": "dist/",
   "files": [
-    "dist/js/jizy-cooky.min.js",
-    "dist/css/jizy-cooky.min.css",
-    "dist/fonts/*",
-    "dist/images/*",
-    "lib/js/*.js",
-    "lib/less/*.less",
-    "lib/index.js",
-    "lib/cooky.less"
+    "dist/*",
+    "lib/*"
   ],
   "scripts": {
     "jpack:export": "node ./cli/jpack.js --action build --name perso",

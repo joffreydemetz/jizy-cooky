@@ -1,4 +1,4 @@
-import Service from '../../Service.js';
+import Service from '../lib/js/Service.js';
 
 export default class DailymotionService extends Service {
 	constructor() {
