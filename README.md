@@ -1,39 +1,45 @@
 # Cooky 
 
-GDPR Cookie consent management
+Cooky is a simple and extensible GDPR Cookie consent management tool.
 
-## Core files
+## How it works
 
-- **Category.js**: Manages a category of services, allowing you to add, retrieve, and sort services within a category.
-- **Language.js**: Handles language settings and translations for the UI, storing translation strings and locale info.
-- **Plugin.js**: Base class for plugins, with methods to get translations and data (intended to be extended).
-- **Service.js**: Represents a third-party service (like analytics or social media), with properties for cookies, details, icons, and consent management.
-- **ServiceCookie.js**: Represents a cookie used by a service, with details like name, security, and duration.
-- **Element.js**: Represents a UI element by ID, with methods to build and initialize elements, intended for subclassing.
+The consent manager displays an alert if user consent is needed for non-technical (third-party) cookies. If only technical cookies are present, the alert is not shown. However, the consent manager interface can always be accessed by the user for informational purposes, even if no consent is required.
 
-See the source files in `lib/js/` for more details and implementation.
+## Build
 
-## Usage
+The Cooky object is added to the global `window` object when the script is loaded. You can also import the classes individually if you are using a module bundler.
 
-Here is a basic example of how to use the main classes:
+## Usage 
 
-```js
-import Category from './lib/js/Category.js';
-import Service from './lib/js/Service.js';
-import ServiceCookie from './lib/js/ServiceCookie.js';
-import Language from './lib/js/Language.js';
+See example files in `example/` for practical usage.
 
-// Create a new service
-const analyticsService = new Service('analytics', 'Google Analytics');
-analyticsService.cookies.push(new ServiceCookie({ name: 'ga', details: 'Google Analytics cookie', secure: true, duration: 3600 }));
+## Useful methods
 
-// Create a category and add the service
-const analyticsCategory = new Category('analytics');
-analyticsCategory.addService(analyticsService);
+It is easy to interact with the Cooky manager programmatically. Here are some useful methods:
+- `Cooky.init(options)`: Initialize the Cooky manager with optional configuration
+- `Cooky.config(config)`: Update the Cooky configuration
+- `Cooky.show()`: Show the Cooky manager interface
+- `Cooky.hide()`: Hide the Cooky manager interface
 
-// Create a language instance
-const en = new Language('en', 'English', 'en_US');
+When using the devmode Plugin you can also use:
+- `Cooky.addCategory(category)`: Add a new Category
+- `Cooky.addLanguage(language)`: Add a new Language
+- `Cooky.addService(service)`: Add a new Service
+- `Cooky.addPlugin(plugin)`: Add a new Plugin
+- `Cooky.addTranslations(code, translations)`: Add new translations for a language code
+- `Cooky.appendTranslations(translations)`: Append translations for multiple languages
+- `Cooky.appendServiceData(serviceId, data)`: Append data to an existing Service
+- `Cooky.appendServiceCookies(serviceId, cookies)`: Append cookies to an existing Service
 
-console.log(analyticsCategory.getServices());
-console.log(en.translations['alert.privacy']);
-```
+## Events
+
+The following custom events are dispatched on the `document` object:
+- `cooky.show`: Show the consent manager interface
+- `cooky.hide`: Hide the consent manager interface
+- `cooky.translate`: Translate the consent manager interface. The event detail contains the `code` of the new language.
+- `cooky.respond.all`: Triggered when the user responds to all services (accept or reject). The event detail contains `accept` (boolean) and optional `timeout` (ms before reload).
+- `cooky.respond.one`: Triggered when the user responds to a single service (accept or reject). The event detail contains `accept` (boolean), `serviceId` (string), and optional `timeout` (ms before reload).
+
+An `Observer` checks for DOM changes.
+For example adding `class="cooky-needs-consent"` to the body, triggers the consent manager.
