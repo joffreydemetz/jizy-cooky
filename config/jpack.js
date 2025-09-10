@@ -1,6 +1,12 @@
 import fs from 'fs';
 import path from 'path';
-import { LogMe, jPackConfig } from 'jizy-packer';
+
+import {
+    LogMe,
+    jPackConfig,
+    generateLessVariablesFromConfig,
+    deleteLessVariablesFile
+} from 'jizy-packer';
 
 function pluginClass(name) {
     const parts = name.split('.');
@@ -11,48 +17,41 @@ function pluginClass(name) {
 }
 
 function availableLanguages() {
-    const languagesDir = path.join(__dirname, '../lib/js/languages');
+    const languagesDir = path.join(jPackConfig.get('basePath'), 'lib/js/languages');
     return fs.readdirSync(languagesDir)
         .filter(file => file.endsWith('.js'))
         .map(file => file.slice(0, -3));
 }
 
 function availableServices() {
-    const servicesDir = path.join(__dirname, '../lib/js/services');
+    const servicesDir = path.join(jPackConfig.get('basePath'), 'lib/js/services');
     return fs.readdirSync(servicesDir)
         .filter(file => file.endsWith('.js'))
         .map(file => file.slice(0, -3));
 }
 
 function availablePlugins() {
-    const pluginsDir = path.join(__dirname, '../lib/js/plugins');
+    const pluginsDir = path.join(jPackConfig.get('basePath'), 'lib/js/plugins');
     return fs.readdirSync(pluginsDir)
         .filter(file => file.endsWith('.js'))
         .map(file => file.slice(0, -3));
 }
 
-function generateLessVariablesFromConfig(variablesPath) {
-    LogMe.log('Build lib/less/_variables.less');
-    const desktopBreakpoint = jPackConfig.get('desktopBreakpoint') ?? '768px';
-    let content = `@desktop-breakpoint: ${desktopBreakpoint};` + "\n";
-    content += `@mobile-breakpoint: @desktop-breakpoint - 1px;`;
-    fs.writeFileSync(variablesPath, content, { encoding: 'utf8' });
-}
-
-function deleteLessVariablesFile(variablesPath) {
-    if (fs.existsSync(variablesPath)) {
-        LogMe.log('Delete lib/less/_variables.less');
-        fs.unlinkSync(variablesPath);
-    }
-}
-
 const jPackData = function () {
-    const lessBuildVariablesPath = path.join(jPackConfig.get('basePath'), 'lib', 'less', '_variables.less');
+    const lessBuildVariablesPath = path.join(jPackConfig.get('basePath'), 'lib/less/_variables.less');
 
     jPackConfig.sets({
         name: 'Cooky',
         alias: 'jizy-cooky',
-        desktopBreakpoint: '900px',
+        lessVariables: {
+            desktopBreakpoint: '900px',
+            cookyGreen: '#5cb85c',
+            cookyBlue: '#5bc0de',
+            cookyOrange: '#f0ad4e',
+            cookyRed: '#d9534f',
+            cookyGray: '#EEE',
+            cookyDarkgray: '#999'
+        },
         languages: [],
         services: [],
         plugins: [],
@@ -110,7 +109,10 @@ const jPackData = function () {
     });
 
     jPackConfig.set('onGenerateBuildJs', (code) => {
-        generateLessVariablesFromConfig(lessBuildVariablesPath);
+        LogMe.log('Build lib/less/_variables.less');
+        const lessVariables = jPackConfig.get('lessVariables') ?? {};
+        const lessOriginalVariablesPath = path.join(jPackConfig.get('basePath'), 'lib', 'less', 'variables.less');
+        generateLessVariablesFromConfig(lessOriginalVariablesPath, lessBuildVariablesPath, lessVariables);
 
         const services = jPackConfig.get('services');
         const languages = jPackConfig.get('languages');
