@@ -11,4 +11,4 @@ import '{{PREFIX}}lib/fonts/cooky.woff';
 {{PLUGINS}}
 {{CONFIG}}
 
-export { Core, Cooky }
+export default Cooky;
