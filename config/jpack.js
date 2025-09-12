@@ -111,7 +111,7 @@ const jPackData = function () {
     jPackConfig.set('onGenerateBuildJs', (code) => {
         LogMe.log('Build lib/less/_variables.less');
         const lessVariables = jPackConfig.get('lessVariables') ?? {};
-        const lessOriginalVariablesPath = path.join(jPackConfig.get('basePath'), 'lib', 'less', 'variables.less');
+        const lessOriginalVariablesPath = path.join(jPackConfig.get('basePath'), 'lib/less/variables.less');
         generateLessVariablesFromConfig(lessOriginalVariablesPath, lessBuildVariablesPath, lessVariables);
 
         const services = jPackConfig.get('services');

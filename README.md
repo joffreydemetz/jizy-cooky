@@ -6,9 +6,13 @@ Cooky is a simple and extensible GDPR Cookie consent management tool.
 
 The consent manager displays an alert if user consent is needed for non-technical (third-party) cookies. If only technical cookies are present, the alert is not shown. However, the consent manager interface can always be accessed by the user for informational purposes, even if no consent is required.
 
-## Build
-
 The Cooky object is added to the global `window` object when the script is loaded. You can also import the classes individually if you are using a module bundler.
+
+## Installation
+
+```sh
+npm install jizy-cooky
+```
 
 ## Usage 
 
