@@ -1,15 +1,18 @@
 {
   "name": "jizy-cooky",
-  "version": "2.1.0",
+  "version": "2.1.2",
   "browser": "dist/js/jizy-cooky.min.js",
   "main": "lib/index.js",
   "type": "module",
   "jizy": "dist/",
   "files": [
     "dist/*",
+    "example/*",
     "lib/*"
   ],
   "scripts": {
+    "jpack:example": "node ./cli/jpack.js --action build --name example",
+    "jpack:example-debug": "node ./cli/jpack.js --action build --name example --debug",
     "jpack:export": "node ./cli/jpack.js --action build --name perso",
     "jpack:export-debug": "node ./cli/jpack.js --action build --name perso --debug",
     "jpack:dist": "node ./cli/jpack.js",
@@ -27,8 +30,8 @@
   "author": "Joffrey Demetz <joffrey.demetz@gmail.com> (https://joffreydemetz.com/)",
   "license": "MIT",
   "description": "A lightweight and extensible GDPR management library",
-  "dependencies": {
-    "jizy-packer": "^2.1.0",
+  "devDependencies": {
+    "jizy-packer": "^2.1.32",
     "less": "^4.4.1"
   }
 }

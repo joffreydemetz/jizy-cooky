@@ -59,3 +59,12 @@ main {
 .btn.btn-cancel:hover {
     color: #ac5e5e;
 }
+
+.sr-only {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
