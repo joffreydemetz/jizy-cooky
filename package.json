@@ -11,12 +11,13 @@
     "lib/*"
   ],
   "scripts": {
+    "jpack:dist": "node ./cli/jpack.js",
+    "jpack:dist-debug": "node ./cli/jpack.js --debug",
     "jpack:example": "node ./cli/jpack.js --action build --name example",
     "jpack:example-debug": "node ./cli/jpack.js --action build --name example --debug",
-    "jpack:export": "node ./cli/jpack.js --action build --name perso",
-    "jpack:export-debug": "node ./cli/jpack.js --action build --name perso --debug",
-    "jpack:dist": "node ./cli/jpack.js",
-    "jpack:dist-debug": "node ./cli/jpack.js --debug"
+    "export": "node ./cli/export.js",
+    "export:all": "node ./cli/export.js --all",
+    "export:debug": "node ./cli/export.js --debug"
   },
   "repository": {
     "type": "git",
@@ -31,7 +32,7 @@
   "license": "MIT",
   "description": "A lightweight and extensible GDPR management library",
   "devDependencies": {
-    "jizy-packer": "^2.1.32",
+    "jizy-packer": "^2.1.44",
     "less": "^4.4.1"
   }
 }
