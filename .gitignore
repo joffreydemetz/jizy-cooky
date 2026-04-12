@@ -1,6 +1,5 @@
 /build/*
 /exports/*
-/dist/*
 /node_modules/
 /test/
 /package-lock.json
