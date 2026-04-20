@@ -147,9 +147,10 @@ const jPackData = function () {
             .map((plugin) => {
                 const ClassName = pluginClass(plugin);
                 const filename = plugin.toLowerCase();
+                const serviceId = plugin.split('.')[0];
                 return `import ${ClassName} from '${importPrefix}lib/js/plugins/${filename}.js';`
                     + "\n"
-                    + `Core.addPlugin(new ${ClassName}());`;
+                    + `Core.addPlugin('${serviceId}', new ${ClassName}());`;
             })
             .join('\n');
 
