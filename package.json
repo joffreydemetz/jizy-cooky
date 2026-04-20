@@ -1,13 +1,12 @@
 {
   "name": "jizy-cooky",
-  "version": "2.1.5",
+  "version": "2.1.6",
   "browser": "dist/js/jizy-cooky.min.js",
   "main": "lib/index.js",
   "type": "module",
   "jizy": "dist/",
   "files": [
     "dist/*",
-    "example/*",
     "lib/*"
   ],
   "scripts": {
