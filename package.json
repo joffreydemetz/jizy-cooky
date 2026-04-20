@@ -12,8 +12,6 @@
   "scripts": {
     "jpack:dist": "node ./cli/jpack.js",
     "jpack:dist-debug": "node ./cli/jpack.js --debug",
-    "jpack:example": "node ./cli/jpack.js --action build --name example",
-    "jpack:example-debug": "node ./cli/jpack.js --action build --name example --debug",
     "export": "node ./cli/export.js",
     "export:all": "node ./cli/export.js --all",
     "export:debug": "node ./cli/export.js --debug"
