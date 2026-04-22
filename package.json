@@ -1,6 +1,6 @@
 {
   "name": "jizy-cooky",
-  "version": "2.1.7",
+  "version": "2.1.8",
   "browser": "dist/js/jizy-cooky.min.js",
   "main": "lib/index.js",
   "type": "module",
