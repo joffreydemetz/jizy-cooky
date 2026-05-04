@@ -92,13 +92,6 @@ const jPackData = function () {
             services = ['core', ...services.filter(service => service !== 'core')];
         }
 
-        // Ensure "debug" and "devmode" are the first and second plugins if present
-        const prioritizedPlugins = ['debug', 'devmode'];
-        plugins = [
-            ...prioritizedPlugins.filter(plugin => plugins.includes(plugin)), // Add prioritized plugins in order
-            ...plugins.filter(plugin => !prioritizedPlugins.includes(plugin)) // Add the rest of the plugins
-        ];
-
         languages = [...new Set(languages)];
         services = [...new Set(services)];
         plugins = [...new Set(plugins)];
