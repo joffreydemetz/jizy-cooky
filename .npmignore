@@ -1,5 +1,7 @@
-cli/
-node_modules/
-exports/
 .work/
+cli/
+config/
+dist/
+exports/
+node_modules/
 package-lock.json

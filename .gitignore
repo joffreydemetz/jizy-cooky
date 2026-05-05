@@ -1,7 +1,6 @@
+/.work/
 /build/*
 /exports/*
 /node_modules/
 /test/
 /package-lock.json
-/example/
-/.work/

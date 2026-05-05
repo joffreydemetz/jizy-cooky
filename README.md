@@ -14,10 +14,6 @@ The Cooky object is added to the global `window` object when the script is loade
 npm install jizy-cooky
 ```
 
-## Usage 
-
-See example files in `example/` for practical usage.
-
 ## Useful methods
 
 It is easy to interact with the Cooky manager programmatically. Here are some useful methods:
