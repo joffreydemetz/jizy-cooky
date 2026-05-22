@@ -39,6 +39,7 @@ function availablePlugins() {
 
 const jPackData = function () {
     const lessBuildVariablesPath = path.join(jPackConfig.get('basePath'), 'lib/less/_variables.less');
+    const lessLanguagesPath = path.join(jPackConfig.get('basePath'), 'lib/less/_languages.less');
 
     jPackConfig.sets({
         name: 'Cooky',
@@ -113,6 +114,12 @@ const jPackData = function () {
         const defaults = jPackConfig.get('defaults');
         const importPrefix = jPackConfig.get('importPrefix');
 
+        LogMe.log('Build lib/less/_languages.less');
+        const languagesLess = languages
+            .map((language) => `@import url("${language}.less");`)
+            .join('\n');
+        fs.writeFileSync(lessLanguagesPath, languagesLess);
+
         const flagsImports = languages
             .map((language) => `import '${importPrefix}lib/images/flags__${language}.png';`)
             .join('\n');
@@ -163,6 +170,10 @@ const jPackData = function () {
 
     jPackConfig.set('onPacked', () => {
         deleteLessVariablesFile(lessBuildVariablesPath);
+
+        if (fs.existsSync(lessLanguagesPath)) {
+            fs.unlinkSync(lessLanguagesPath);
+        }
 
         // create flags directory if it doesn't exist
         if (!fs.existsSync(jPackConfig.get('targetPath') + '/images/flags')) {
