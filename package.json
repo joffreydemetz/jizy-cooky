@@ -1,9 +1,18 @@
 {
   "name": "jizy-cooky",
-  "version": "2.1.12",
+  "version": "2.1.14",
   "browser": "dist/js/jizy-cooky.min.js",
   "main": "lib/index.js",
   "type": "module",
+  "license": "MIT",
+  "description": "A lightweight and extensible GDPR management library",
+  "homepage": "https://jizy.joffreydemetz.com/cooky",
+  "keywords": [
+    "cooky",
+    "gdpr",
+    "compliance"
+  ],
+  "author": "Joffrey Demetz <joffrey.demetz@gmail.com> (https://joffreydemetz.com/)",
   "files": [
     "dist/*",
     "lib/*"
@@ -20,15 +29,6 @@
     "type": "git",
     "url": "git+https://github.com/joffreydemetz/jizy-cooky.git"
   },
-  "keywords": [
-    "cooky",
-    "gdpr",
-    "compliance"
-  ],
-  "author": "Joffrey Demetz <joffrey.demetz@gmail.com> (https://joffreydemetz.com/)",
-  "license": "MIT",
-  "description": "A lightweight and extensible GDPR management library",
-  "homepage": "https://jizy.joffreydemetz.com/cooky",
   "devDependencies": {
     "happy-dom": "^20.9.0",
     "jizy-packer": "^2.1.44",
