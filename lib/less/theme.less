@@ -1,0 +1,27 @@
+/*
+ * Default theming exposed as CSS custom properties.
+ *
+ * Asset paths live in a separate `paths.less` (Phase 4 precedent). This file
+ * holds the visual theming: colors and stacking layer.
+ *
+ * Override at `:root` from a consumer stylesheet loaded AFTER this CSS:
+ *
+ *   :root {
+ *     --jizy-cooky-red: #c0392b;
+ *     --jizy-cooky-green: #27ae60;
+ *   }
+ *
+ * `--jizy-cooky-darkgray-translucent` is the pre-computed `rgba()` form of
+ * `--jizy-cooky-darkgray` at 20% opacity (used for the .cooky-allow
+ * text-shadow). If you override `--jizy-cooky-darkgray`, override this too.
+ */
+:root {
+    --jizy-cooky-green: #5cb85c;
+    --jizy-cooky-blue: #5bc0de;
+    --jizy-cooky-orange: #f0ad4e;
+    --jizy-cooky-red: #d9534f;
+    --jizy-cooky-gray: #eee;
+    --jizy-cooky-darkgray: #999;
+    --jizy-cooky-darkgray-translucent: rgba(153, 153, 153, 0.2);
+    --jizy-cooky-layer: 234567891;
+}

@@ -3,9 +3,7 @@ import path from 'path';
 
 import {
     LogMe,
-    jPackConfig,
-    generateLessVariablesFromConfig,
-    deleteLessVariablesFile
+    jPackConfig
 } from 'jizy-packer';
 
 function pluginClass(name) {
@@ -38,21 +36,11 @@ function availablePlugins() {
 }
 
 const jPackData = function () {
-    const lessBuildVariablesPath = path.join(jPackConfig.get('basePath'), 'lib/less/_variables.less');
     const lessLanguagesPath = path.join(jPackConfig.get('basePath'), 'lib/less/_languages.less');
 
     jPackConfig.sets({
         name: 'Cooky',
         alias: 'jizy-cooky',
-        lessVariables: {
-            desktopBreakpoint: '900px',
-            cookyGreen: '#5cb85c',
-            cookyBlue: '#5bc0de',
-            cookyOrange: '#f0ad4e',
-            cookyRed: '#d9534f',
-            cookyGray: '#EEE',
-            cookyDarkgray: '#999'
-        },
         languages: [],
         services: [],
         plugins: [],
@@ -103,11 +91,6 @@ const jPackData = function () {
     });
 
     jPackConfig.set('onGenerateBuildJs', (code) => {
-        LogMe.log('Build lib/less/_variables.less');
-        const lessVariables = jPackConfig.get('lessVariables') ?? {};
-        const lessOriginalVariablesPath = path.join(jPackConfig.get('basePath'), 'lib/less/variables.less');
-        generateLessVariablesFromConfig(lessOriginalVariablesPath, lessBuildVariablesPath, lessVariables);
-
         const services = jPackConfig.get('services');
         const languages = jPackConfig.get('languages');
         const plugins = jPackConfig.get('plugins');
@@ -169,8 +152,6 @@ const jPackData = function () {
     jPackConfig.set('onGenerateWrappedJs', (wrapped) => wrapped);
 
     jPackConfig.set('onPacked', () => {
-        deleteLessVariablesFile(lessBuildVariablesPath);
-
         if (fs.existsSync(lessLanguagesPath)) {
             fs.unlinkSync(lessLanguagesPath);
         }
