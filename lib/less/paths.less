@@ -1,0 +1,25 @@
+/*
+ * Default asset paths exposed as CSS custom properties.
+ *
+ * The standalone bundle (dist/css/jizy-cooky.min.css) ships these defaults so
+ * it works out of the box served from `dist/css/` with sibling `dist/fonts/`
+ * and `dist/images/flags/`.
+ *
+ * To relocate assets — e.g. when merging multiple jizy-* CSS files into one
+ * per-site bundle at a different depth — override these custom properties at
+ * `:root` from a consumer stylesheet loaded after this CSS:
+ *
+ *   :root {
+ *     --jizy-cooky-font-woff2: url("/fonts/cooky.woff2") format("woff2");
+ *     --jizy-cooky-flag-fr:    url("/assets/images/flags/fr.png");
+ *     // …
+ *   }
+ */
+:root {
+    --jizy-cooky-font-woff2: url("../fonts/cooky.woff2") format("woff2");
+    --jizy-cooky-font-woff:  url("../fonts/cooky.woff")  format("woff");
+    --jizy-cooky-flag-en:    url("../images/flags/en.png");
+    --jizy-cooky-flag-fr:    url("../images/flags/fr.png");
+    --jizy-cooky-flag-es:    url("../images/flags/es.png");
+    --jizy-cooky-flag-it:    url("../images/flags/it.png");
+}
