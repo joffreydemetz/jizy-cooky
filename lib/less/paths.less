@@ -1,25 +1,28 @@
 /*
- * Default asset paths exposed as CSS custom properties.
+ * Asset paths.
  *
- * The standalone bundle (dist/css/jizy-cooky.min.css) ships these defaults so
- * it works out of the box served from `dist/css/` with sibling `dist/fonts/`
- * and `dist/images/flags/`.
+ * Font paths are LESS variables (build-time substitution) — CSS custom
+ * properties cannot be used inside @font-face descriptors per the CSS spec
+ * (@font-face has no element cascade, so var() in `src:` resolves to the
+ * invalid initial value and the font silently fails to load).
  *
- * To relocate assets — e.g. when merging multiple jizy-* CSS files into one
- * per-site bundle at a different depth — override these custom properties at
- * `:root` from a consumer stylesheet loaded after this CSS:
+ * To ship the fonts from a different path, build a consumer-specific bundle
+ * with @FONT_PATH overridden (LESS uses last-declaration-wins, so define it
+ * in your entry .less BEFORE @importing jizy-cooky), e.g.:
  *
- *   :root {
- *     --jizy-cooky-font-woff2: url("/fonts/cooky.woff2") format("woff2");
- *     --jizy-cooky-flag-fr:    url("/assets/images/flags/fr.png");
- *     // …
- *   }
+ *   @FONT_PATH: "/assets/jizy-cooky/fonts/";
+ *   @import "jizy-cooky/lib/cooky.less";
+ *
+ * Flag images stay as :root CSS custom properties since `background-image:`
+ * on real DOM elements honors the cascade — consumers can override these at
+ * runtime by re-declaring `--jizy-cooky-flag-*` in a stylesheet loaded after
+ * jizy-cooky's CSS.
  */
+@FONT_PATH: "../fonts/";
+
 :root {
-    --jizy-cooky-font-woff2: url("../fonts/cooky.woff2") format("woff2");
-    --jizy-cooky-font-woff:  url("../fonts/cooky.woff")  format("woff");
-    --jizy-cooky-flag-en:    url("../images/flags/en.png");
-    --jizy-cooky-flag-fr:    url("../images/flags/fr.png");
-    --jizy-cooky-flag-es:    url("../images/flags/es.png");
-    --jizy-cooky-flag-it:    url("../images/flags/it.png");
+    --jizy-cooky-flag-en: url("../images/flags/en.png");
+    --jizy-cooky-flag-fr: url("../images/flags/fr.png");
+    --jizy-cooky-flag-es: url("../images/flags/es.png");
+    --jizy-cooky-flag-it: url("../images/flags/it.png");
 }
