@@ -1,6 +1,6 @@
 {
   "name": "jizy-cooky",
-  "version": "2.1.15",
+  "version": "2.1.16",
   "browser": "dist/js/jizy-cooky.min.js",
   "main": "lib/index.js",
   "type": "module",
@@ -33,6 +33,7 @@
     "happy-dom": "^20.9.0",
     "jizy-packer": "^2.1.44",
     "less": "^4.4.1",
+    "vite": "^6.0.0",
     "vitest": "^4.1.5"
   }
 }
