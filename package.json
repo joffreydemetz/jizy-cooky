@@ -4,6 +4,7 @@
   "browser": "dist/js/jizy-cooky.min.js",
   "main": "lib/index.js",
   "type": "module",
+  "author": "Joffrey Demetz <joffrey.demetz@gmail.com> (https://joffreydemetz.com/)",
   "license": "MIT",
   "description": "A lightweight and extensible GDPR management library",
   "homepage": "https://jizy.joffreydemetz.com/cooky",
@@ -12,7 +13,6 @@
     "gdpr",
     "compliance"
   ],
-  "author": "Joffrey Demetz <joffrey.demetz@gmail.com> (https://joffreydemetz.com/)",
   "files": [
     "dist/*",
     "lib/*"

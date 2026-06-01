@@ -1,7 +1,7 @@
 .work/
 cli/
 config/
-dist/
 exports/
 node_modules/
+tests/
 package-lock.json
