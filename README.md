@@ -1,12 +1,15 @@
-# Cooky 
+# Cooky
 
-Cooky is a simple and extensible GDPR Cookie consent management tool.
+Cooky is a simple and extensible GDPR cookie consent manager.
 
 ## How it works
 
 The consent manager displays an alert if user consent is needed for non-technical (third-party) cookies. If only technical cookies are present, the alert is not shown. However, the consent manager interface can always be accessed by the user for informational purposes, even if no consent is required.
 
-The Cooky object is added to the global `window` object when the script is loaded. You can also import the classes individually if you are using a module bundler.
+Each third-party integration is a **service** (id, category, cookies, the script to load once allowed,
+the fallback to run while it is not). Services are grouped in **categories** (`technical`, `api`,
+`analytic`, `social`, `video`, `ads`, `comment`, `support`, `other`). The visitor's choices are stored
+in the `jizy_cooky` cookie.
 
 ## Installation
 
@@ -14,32 +17,140 @@ The Cooky object is added to the global `window` object when the script is loade
 npm install jizy-cooky
 ```
 
-## Useful methods
+| Entry | What |
+|---|---|
+| `dist/js/jizy-cooky.min.js` | Browser bundle, sets the global `window.Cooky`. Built with the English and French languages and the `core` service. |
+| `dist/css/jizy-cooky.min.css` | Styles; loads `dist/fonts/` and `dist/images/flags/` through relative URLs, so keep the three folders side by side. |
+| `lib/index.js` | ESM entry: default export `Cooky`, named exports `{ Core, Cooky }`. Registers the English and French languages, the `core` service and the `core.phpsession` plugin. |
 
-It is easy to interact with the Cooky manager programmatically. Here are some useful methods:
-- `Cooky.init(options)`: Initialize the Cooky manager with optional configuration
-- `Cooky.config(config)`: Update the Cooky configuration
-- `Cooky.show()`: Show the Cooky manager interface
-- `Cooky.hide()`: Hide the Cooky manager interface
+## Usage
 
-When using the devmode Plugin you can also use:
-- `Cooky.addCategory(category)`: Add a new Category
-- `Cooky.addLanguage(language)`: Add a new Language
-- `Cooky.addService(service)`: Add a new Service
-- `Cooky.addPlugin(plugin)`: Add a new Plugin
-- `Cooky.addTranslations(code, translations)`: Add new translations for a language code
-- `Cooky.appendTranslations(translations)`: Append translations for multiple languages
-- `Cooky.appendServiceData(serviceId, data)`: Append data to an existing Service
-- `Cooky.appendServiceCookies(serviceId, cookies)`: Append cookies to an existing Service
+```html
+<link rel="stylesheet" href="/jizy-cooky/css/jizy-cooky.min.css">
+<script src="/jizy-cooky/js/jizy-cooky.min.js"></script>
+<script>
+    Cooky.appendServiceData('core', { name: 'My site', uri: '/legal-notice' });
+    Cooky.config({ defaultLanguage: 'fr', refuseAll: true });
+    Cooky.check();
+
+    document.addEventListener('DOMContentLoaded', () => Cooky.ready());
+</script>
+
+<a href="#" onclick="document.dispatchEvent(new CustomEvent('cooky.show', { detail: { from: 'menu' } })); return false;">Cookie settings</a>
+```
+
+Boot in that order: register or adjust services and plugins, `config()`, `check()`, then `ready()`
+once the DOM is parsed. `ready()` builds the alert (`#cooky`) and the manager modal (`#cookyModal`),
+reads the stored choices, runs each service, and shows the alert when a choice is pending. After
+`ready()`, `config()` and `check()` are no-ops.
+
+`run(config)` chains `config()` and `check()` and registers `ready()` for `DOMContentLoaded`, but it
+marks the library as loaded first, so that deferred `ready()` returns early. Use the explicit
+sequence above.
+
+## Configuration
+
+`Cooky.config({...})` sets any of these keys (unknown keys and wrong types are ignored):
+
+| Key | Default | Notes |
+|---|---|---|
+| `defaultLanguage` | `'en'` | Must be a registered language. |
+| `navigatorLanguage` | `true` | When the browser language is registered, it replaces `defaultLanguage`. |
+| `refuseAll` | `false` | Adds a "Refuse all" button to the alert. |
+| `dontcare` | `false` | Adds a "Continue without accepting" link to the alert (`true` in the browser bundle). |
+| `noAdBlocker`, `adBlocker` | `false` | When both are true, the alert asks the visitor to disable their ad blocker. |
+| `service` | `{}` | Per-service settings, e.g. `{ matomo: { id: 1, host: 'stats.example.com' } }`. |
+
+When the page already contains a `#cooky` element, Cooky uses that markup instead of building its
+own, and reads its `data-cooky-*` attributes (or a JSON `data-cooky-config` attribute) as extra
+configuration.
+
+## API
+
+The registration methods live on `Core` (the stores); `Cooky` proxies them, so in the browser bundle
+call them on `Cooky`:
+
+- `addLanguage(language)` — register a `Language`.
+- `addTranslations(code, translations)` — merge translations into one registered language.
+- `appendTranslations({ fr: {...}, en: {...} })` — merge translations into several languages.
+- `addService(service)` — register a `Service` (its own translations are merged in).
+- `addPlugin(serviceId, plugin)` — apply a `Plugin`'s data (cookies, …) and translations to a registered service.
+- `appendServiceData(serviceId, data)` — update a service: `name`, `uri`, `required`, `js`, `fallback`, `cookies`, `classes`, `mandatory`.
+- `addCategory(category)` — register a category (the built-in ones are created by `check()`).
+
+`Cooky` only:
+
+- `appendServiceCookies(serviceId, cookies)`, `updateServiceCookie(serviceId, name, key, value)`.
+- `config(config)`, `check()`, `ready()`, `run(config)` — see Usage.
+- `show()` / `hide()` — open or close the manager modal.
+- `translate()` — re-apply the current language to the alert and the modal.
+- `getName()`, `getVersion()`, `isLoaded()`.
+
+Set `Cooky.debugMode = true` to log configuration errors.
+
+## Services, plugins and languages
+
+Shipped under `lib/js/`, and selectable for a custom build (see Build):
+
+- services: `core` (always included), `matomo` (needs `service.matomo.id` and `service.matomo.host`),
+  `googlefonts`, `hcaptcha`, `ovh`, `trustpilot`, `avisverifies`;
+- plugins for the `core` service: `core.phpsession`, `core.i18n`, `core.remember`, `core.cart`
+  (each declares a technical cookie);
+- languages: `en`, `fr`, `es`, `it`.
 
 ## Events
 
-The following custom events are dispatched on the `document` object:
-- `cooky.show`: Show the consent manager interface
-- `cooky.hide`: Hide the consent manager interface
-- `cooky.translate`: Translate the consent manager interface. The event detail contains the `code` of the new language.
-- `cooky.respond.all`: Triggered when the user responds to all services (accept or reject). The event detail contains `accept` (boolean) and optional `timeout` (ms before reload).
-- `cooky.respond.one`: Triggered when the user responds to a single service (accept or reject). The event detail contains `accept` (boolean), `serviceId` (string), and optional `timeout` (ms before reload).
+The following custom events are listened to on `document`. Always pass a `detail` object:
 
-An `Observer` checks for DOM changes.
-For example adding `class="cooky-needs-consent"` to the body, triggers the consent manager.
+- `cooky.show` (`{ from }`) — open the manager modal.
+- `cooky.hide` (`{ from }`) — close it.
+- `cooky.translate` (`{ code }`) — switch to a registered language.
+- `cooky.respond.all` (`{ accept, timeout }`) — accept or refuse every optional service, then reload the page after `timeout` ms. Always pass `timeout`.
+- `cooky.respond.one` (`{ accept, serviceId, timeout }`) — accept or refuse one service (no reload). Always pass `timeout`.
+
+A `MutationObserver` watches the body classes: adding `cooky-needs-consent` to the `<body>` shows
+the alert. The body gets `cm-open` while the modal is open.
+
+## Theming
+
+Override these custom properties at `:root`, in a stylesheet loaded after this one:
+`--jizy-cooky-green`, `--jizy-cooky-blue`, `--jizy-cooky-orange`, `--jizy-cooky-red`,
+`--jizy-cooky-gray`, `--jizy-cooky-darkgray` (with `--jizy-cooky-darkgray-translucent`, its 20%
+`rgba()` form), `--jizy-cooky-layer` (z-index), and the flags `--jizy-cooky-flag-<code>`.
+
+The font path is the LESS variable `@FONT_PATH` (CSS variables do not work in `@font-face`), so
+serving the fonts from another path takes a custom build.
+
+## Build
+
+```sh
+npm run jpack:dist          # rebuild dist/ (en + fr, core service; dist/ is committed)
+npm run export <name>       # build exports/<name>/ from exports/<name>/cooky.config.json
+npm run export:all          # build every exports/*/cooky.config.json
+```
+
+An export config selects what goes in the bundle:
+
+```json
+{
+    "languages": ["fr", "en"],
+    "services": ["matomo"],
+    "plugins": ["core.phpsession"],
+    "defaults": { "dontcare": true, "defaultLanguage": "fr" }
+}
+```
+
+`core` is always added first; `defaults` are applied with `Core.updateConfig()` when the bundle
+loads. `exports/` is not versioned.
+
+## Tests
+
+```sh
+npm test                    # vitest (happy-dom)
+npm run test:watch
+npm run test:coverage
+```
+
+## License
+
+MIT — see [LICENSE](LICENSE).
