@@ -7,7 +7,6 @@ let Language;
 let Plugin;
 let Config;
 let COOKY_NAME;
-let COOKY_VERSION;
 
 beforeEach(async () => {
     vi.resetModules();
@@ -22,13 +21,11 @@ beforeEach(async () => {
     Config = (await import('../lib/js/Config.js')).default;
     const C = await import('../lib/js/Constants.js');
     COOKY_NAME = C.COOKY_NAME;
-    COOKY_VERSION = C.COOKY_VERSION;
 });
 
 describe('Cooky public surface', () => {
-    it('exposes name and version', () => {
+    it('exposes its name', () => {
         expect(Cooky.getName()).toBe(COOKY_NAME);
-        expect(Cooky.getVersion()).toBe(COOKY_VERSION);
     });
 
     it('reports loaded state from Core', () => {

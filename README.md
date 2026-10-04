@@ -84,7 +84,7 @@ call them on `Cooky`:
 - `config(config)`, `check()`, `ready()`, `run(config)` — see Usage.
 - `show()` / `hide()` — open or close the manager modal.
 - `translate()` — re-apply the current language to the alert and the modal.
-- `getName()`, `getVersion()`, `isLoaded()`.
+- `getName()`, `isLoaded()`.
 
 Set `Cooky.debugMode = true` to log configuration errors.
 

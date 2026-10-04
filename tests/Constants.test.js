@@ -1,13 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import { COOKY_NAME, COOKY_VERSION, COOKY_CATEGORIES } from '../lib/js/Constants.js';
+import { COOKY_NAME, COOKY_CATEGORIES } from '../lib/js/Constants.js';
 
 describe('Constants', () => {
     it('exposes the cookie name', () => {
         expect(COOKY_NAME).toBe('jizy_cooky');
-    });
-
-    it('exposes a semver-shaped version string', () => {
-        expect(COOKY_VERSION).toMatch(/^\d+\.\d+\.\d+$/);
     });
 
     it('lists the canonical category ids in display order', () => {
