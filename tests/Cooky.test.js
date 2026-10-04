@@ -178,3 +178,58 @@ describe('Cooky.respond / respondAll', () => {
         expect(core.allowed).toBe(false);
     });
 });
+
+describe('Cooky.run', () => {
+    it('reaches ready() once the DOM is parsed, and leaves Core.loaded to it', () => {
+        const ready = vi.spyOn(Cooky, 'ready').mockImplementation(() => {});
+
+        Cooky.run();
+
+        expect(ready).toHaveBeenCalledOnce();
+        expect(Core.loaded).toBe(false);
+    });
+
+    it('waits for DOMContentLoaded while the document is still loading', () => {
+        const ready = vi.spyOn(Cooky, 'ready').mockImplementation(() => {});
+        Object.defineProperty(document, 'readyState', { value: 'loading', configurable: true });
+
+        try {
+            Cooky.run();
+            expect(ready).not.toHaveBeenCalled();
+
+            document.dispatchEvent(new Event('DOMContentLoaded'));
+            expect(ready).toHaveBeenCalledOnce();
+        } finally {
+            delete document.readyState;
+        }
+    });
+});
+
+describe('Cooky per-service response reloads on close', () => {
+    beforeEach(() => {
+        Cooky.$modal = { displayMessage: vi.fn(), updateServicesState: vi.fn() };
+        Cooky.reloadThePage = false;
+    });
+
+    it('a changed service asks for a reload', () => {
+        const s = new Service('matomo', 'Matomo');
+        s.type = 'analytic';
+        s.js = vi.fn();
+        Cooky.addService(s);
+
+        Cooky.respond('matomo', true);
+
+        expect(Cooky.reloadThePage).toBe(true);
+    });
+
+    it('an unchanged service does not', () => {
+        const s = new Service('matomo', 'Matomo');
+        s.type = 'analytic';
+        s.setAllowed();
+        Cooky.addService(s);
+
+        Cooky.respond('matomo', true);
+
+        expect(Cooky.reloadThePage).toBe(false);
+    });
+});

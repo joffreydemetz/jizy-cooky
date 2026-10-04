@@ -44,9 +44,9 @@ once the DOM is parsed. `ready()` builds the alert (`#cooky`) and the manager mo
 reads the stored choices, runs each service, and shows the alert when a choice is pending. After
 `ready()`, `config()` and `check()` are no-ops.
 
-`run(config)` chains `config()` and `check()` and registers `ready()` for `DOMContentLoaded`, but it
-marks the library as loaded first, so that deferred `ready()` returns early. Use the explicit
-sequence above.
+`run(config)` chains `config()` and `check()`, then runs `ready()` — at once when the DOM is already
+parsed, else on `DOMContentLoaded` (before 2.1.19 it marked the library as loaded first, so the deferred
+`ready()` returned early and the banner never showed).
 
 ## Configuration
 
@@ -100,13 +100,13 @@ Shipped under `lib/js/`, and selectable for a custom build (see Build):
 
 ## Events
 
-The following custom events are listened to on `document`. Always pass a `detail` object:
+The following custom events are listened to on `document`, with an optional `detail` object:
 
 - `cooky.show` (`{ from }`) — open the manager modal.
 - `cooky.hide` (`{ from }`) — close it.
 - `cooky.translate` (`{ code }`) — switch to a registered language.
-- `cooky.respond.all` (`{ accept, timeout }`) — accept or refuse every optional service, then reload the page after `timeout` ms. Always pass `timeout`.
-- `cooky.respond.one` (`{ accept, serviceId, timeout }`) — accept or refuse one service (no reload). Always pass `timeout`.
+- `cooky.respond.all` (`{ accept, timeout }`) — accept or refuse every optional service, then reload the page after `timeout` ms (default 1000).
+- `cooky.respond.one` (`{ accept, serviceId }`) — accept or refuse one service; when its status changed, closing the modal reloads the page.
 
 A `MutationObserver` watches the body classes: adding `cooky-needs-consent` to the `<body>` shows
 the alert. The body gets `cm-open` while the modal is open.

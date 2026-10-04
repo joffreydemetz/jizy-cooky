@@ -124,6 +124,15 @@ describe('Service.changeStatus', () => {
         expect(s.denied).toBe(true);
         expect(s.loaded).toBe(false);
     });
+
+    it('returns whether the status changed', () => {
+        const s = new Service('matomo', 'Matomo');
+        s.js = vi.fn();
+        expect(s.changeStatus(true)).toBe(true);
+        expect(s.changeStatus(true)).toBe(false);
+        expect(s.changeStatus(false)).toBe(true);
+        expect(s.changeStatus(false)).toBe(false);
+    });
 });
 
 describe('Service.setCookies', () => {
